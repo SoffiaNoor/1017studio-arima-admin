@@ -67,7 +67,7 @@ Website Information
                                         <div class="p-3 shadow-lg text-center"
                                             style="background-color: #ffffff;border-radius:20px">
                                             <img id="image_display2" class="object-contain items-center"
-                                                style="width:100%;height:auto"
+                                                style="width:50%;height:auto"
                                                 src="{{asset($information->logo_favicon)}}">
                                         </div>
                                         @else

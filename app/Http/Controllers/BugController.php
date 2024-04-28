@@ -75,14 +75,6 @@ class BugController extends Controller
 
         $bug = Bug::create($input);
 
-        // // Check if title_bugs and latin_title are filled but image is not filled
-        // if ($request->filled('title_bugs') && $request->filled('latin_title') && !$request->hasFile('image')) {
-        //     $rules['image'] = 'required';
-        //     $messages['image.required'] = 'The image for type bugs is required';
-        // }
-
-        // $this->validate($request, $rules, $messages);
-
         if ($request->filled('title_bugs') && $request->filled('latin_title') && $request->hasFile('image')) {
             $bugTypesInput = [];
             $bugTypeTitles = $request->input('title_bugs');
@@ -199,7 +191,7 @@ class BugController extends Controller
         $bug->update($input);
 
         // Update Existed Type Bugs
-        if ($request->filled('title_bugs') && $request->filled('latin_title') && $request->hasFile('image')) {
+        if ($request->filled('title_bugs') || $request->filled('latin_title')) {
             $bugTypesInput = [];
             $bugTypeTitles = $request->input('title_bugs');
             $bugTypeLatinTitles = $request->input('latin_title');
@@ -208,18 +200,29 @@ class BugController extends Controller
             $existingBugTypeIds = $bug->detailBugs->pluck('id')->toArray(); // Get IDs of existing bug types
 
             foreach ($bugTypeTitles as $key => $title_bugs) {
-                if (isset($bugTypeLatinTitles[$key]) && isset($bugTypeImages[$key])) {
-                    $destinationPath = 'images/bug/bug_types/';
-                    $profileImage = "bug" . "-" . date('YmdHis') . "-" . $key . "." . $bugTypeImages[$key]->getClientOriginalExtension();
-
-                    $bugTypeImages[$key]->move($destinationPath, $profileImage);
-
+                if (isset($bugTypeLatinTitles[$key])) {
                     $bugTypeInput = [
                         'title_bugs' => $title_bugs,
                         'latin_title' => $bugTypeLatinTitles[$key],
-                        'image' => $destinationPath . $profileImage,
                         'id_pest_bugs' => $bug->id,
                     ];
+
+                    // Update image only if image file is provided
+                    if (isset($bugTypeImages[$key])) {
+                        $existingImage = DetailBugs::find($existingBugTypeIds[$key])->image;
+                        $imagePath = $existingImage;
+
+                        if (File::exists($imagePath)) {
+                            File::delete($imagePath);
+                        }
+
+                        $destinationPath = 'images/bug/bug_types/';
+                        $profileImage = "bug" . "-" . date('YmdHis') . "-" . $key . "." . $bugTypeImages[$key]->getClientOriginalExtension();
+
+                        $bugTypeImages[$key]->move($destinationPath, $profileImage);
+
+                        $bugTypeInput['image'] = $destinationPath . $profileImage;
+                    }
 
                     if (isset($existingBugTypeIds[$key])) {
                         DetailBugs::find($existingBugTypeIds[$key])->update($bugTypeInput);

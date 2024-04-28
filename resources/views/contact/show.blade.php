@@ -29,8 +29,8 @@
                                 <div class="col-md-6 pr-1">
                                     <div class="form-group">
                                         <label>First Name</label>
-                                        <input type="text" id="first_name" name="first_name" class="form-control"
-                                            placeholder="First name" value="{{$contact->first_name}}" disabled>
+                                        <input type="text" id="name" name="name" class="form-control"
+                                            placeholder="Name" value="{{$contact->name}}" disabled>
                                     </div>
                                 </div>
                                 <div class="col-md-6 pl-1">
@@ -38,24 +38,6 @@
                                         <label>Email</label>
                                         <input type="email" id="email" name="email" class="form-control"
                                             placeholder="Email" value="{{$contact->email}}" disabled>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label>Phone Number</label>
-                                        <input type="number" id="phone_number" name="phone_number" class="form-control"
-                                            placeholder="Phone number" value="{{$contact->phone_number}}" disabled>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label>Company</label>
-                                        <input type="text" id="company" name="company" class="form-control"
-                                            placeholder="Company" value="{{$contact->company}}" disabled>
                                     </div>
                                 </div>
                             </div>

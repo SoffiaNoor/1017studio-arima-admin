@@ -48,10 +48,7 @@ Contact
                                         Email
                                     </th>
                                     <th style="font-weight:500">
-                                        Phone Number
-                                    </th>
-                                    <th style="font-weight:500">
-                                        Company
+                                        Message
                                     </th>
                                     <th class="text-right" style="font-weight:500">
 
@@ -65,16 +62,13 @@ Contact
                                             $loop->iteration }}
                                         </td>
                                         <td>
-                                            {{$c->first_name}}
+                                            {{$c->name}}
                                         </td>
                                         <td>
                                             {{$c->email}}
                                         </td>
                                         <td>
-                                            {{$c->phone_number}}
-                                        </td>
-                                        <td>
-                                            {{$c->company}}
+                                            {!! substr($c->message,0,60).'...' !!}
                                         </td>
                                         <td class="text-right">
                                             <a href="{{ route('contact.show', $c->id) }}"><i
@@ -124,15 +118,15 @@ Contact
                                 <ul class="pagination justify-content-end pt-4">
                                     @if ($contact->currentPage() > 1)
                                     <li class="page-item">
-                                        <a class="page-link" href="{{ $contact->previousPageUrl() }}" tabindex="-1"
-                                            style="color:#4a00e0">
+                                        <a class="page-link" href="{{ $contact->previousPageUrl() }}"
+                                            tabindex="-1" style="color:#dc3545">
                                             <i class="fa fa-angle-left"></i>
                                             <span class="sr-only">Previous</span>
                                         </a>
                                     </li>
                                     @else
                                     <li class="page-item disabled">
-                                        <a class="page-link" href="javascript:;" tabindex="-1" style="color:#4a00e0">
+                                        <a class="page-link" href="javascript:;" tabindex="-1" style="color:#dc3545">
                                             <i class="fa fa-angle-left"></i>
                                             <span class="sr-only">Previous</span>
                                         </a>
@@ -140,9 +134,10 @@ Contact
                                     @endif
 
                                     @for ($i = 1; $i <= $contact->lastPage(); $i++)
-                                        <li class="page-item {{ $i == $contact->currentPage() ? 'active' : '' }}">
+                                        <li
+                                            class="page-item {{ $i == $contact->currentPage() ? 'active' : '' }}">
                                             <a class="page-link" href="{{ $contact->url($i) }}"
-                                                style="color:#4a00e0;{{ $i == $contact->currentPage() ? 'color:white;background-color:#4a00e0;border:#4a00e0' : '' }}">
+                                                style="color:#dc3545;{{ $i == $contact->currentPage() ? 'color:white;background-color:#dc3545;border:#dc3545' : '' }}">
                                                 {{ $i }}
                                             </a>
                                         </li>
@@ -151,14 +146,14 @@ Contact
                                         @if ($contact->currentPage() < $contact->lastPage())
                                             <li class="page-item">
                                                 <a class="page-link" href="{{ $contact->nextPageUrl() }}"
-                                                    style="color:#4a00e0">
+                                                    style="color:#dc3545">
                                                     <i class="fa fa-angle-right"></i>
                                                     <span class="sr-only">Next</span>
                                                 </a>
                                             </li>
                                             @else
                                             <li class="page-item disabled">
-                                                <a class="page-link" href="javascript:;" style="color:#4a00e0">
+                                                <a class="page-link" href="javascript:;" style="color:#dc3545">
                                                     <i class="fa fa-angle-right"></i>
                                                     <span class="sr-only">Next</span>
                                                 </a>

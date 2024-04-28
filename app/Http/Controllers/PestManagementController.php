@@ -102,7 +102,6 @@ class PestManagementController extends Controller
         ]);
         $input = $request->all();
 
-        // Replace existing images
         if ($request->hasFile('logo')) {
             $existingLogoPestIds = $pestManagement->logoPest->pluck('id')->toArray(); // Get IDs of existing bug types
 
