@@ -74,11 +74,9 @@ General Pest / Edit
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Description (IDN Version)</label>
-                                        <textarea rows="10" cols="80"
-                                            class="form-control @error('description') is-invalid @enderror"
-                                            id="description" name="description"
-                                            placeholder="Here can be your description"
-                                            required>{{$generalPest->description}}</textarea>
+                                        <div id="editor1"></div>
+                                        <textarea class="@error('description') is-invalid @enderror" name="description"
+                                            style="display:none;">{{$generalPest->description}}</textarea>
                                         @error('description')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -91,11 +89,10 @@ General Pest / Edit
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Description (ENG Version)</label>
-                                        <textarea rows="10" cols="80"
-                                            class="form-control @error('description_eng') is-invalid @enderror"
-                                            id="description_eng" name="description_eng"
-                                            placeholder="Here can be your description"
-                                            required>{{$generalPest->description_eng}}</textarea>
+                                        <div id="editor2"></div>
+                                        <textarea class="@error('description_eng') is-invalid @enderror"
+                                            name="description_eng"
+                                            style="display:none;">{{$generalPest->description_eng}}</textarea>
                                         @error('description_eng')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -108,7 +105,7 @@ General Pest / Edit
                                 <div class="col-md-12">
                                     <button class="btn btn-success text-white" type="submit"><i
                                             class="bi bi-save mx-1"></i>Save</button>
-                                    <a href="/generalPest" class="btn btn-info text-white"><i
+                                    <a href="/general_pest" class="btn btn-info text-white"><i
                                             class="bi bi-arrow-return-left mx-1"></i>Back</a>
                                 </div>
                             </div>
@@ -123,8 +120,6 @@ General Pest / Edit
 @endsection
 
 @section('jquery')
-<script src="https://cdn.tiny.cloud/1/a2m8qq7i48j1gc5izphurmemg39o165ft6pbpiz5a7waq805/tinymce/5/tinymce.min.js"
-    referrerpolicy="origin"></script>
 
 <script>
     const fileInput = document.getElementById('file_input');
@@ -142,27 +137,19 @@ General Pest / Edit
 </script>
 
 <script>
-    tinymce.init({
-        selector: 'textarea#list_type',
-        plugins: 'lists textcolor',
-        toolbar: 'undo redo | bold italic | bullist numlist | forecolor backcolor',
-        height: 300, // You can adjust the height as needed
-        menubar: false // Optionally, you can hide the menubar
-    });
-    tinymce.init({
-        selector: 'textarea#description_eng',
-        plugins: 'lists textcolor',
-        toolbar: 'undo redo | bold italic | bullist numlist | forecolor backcolor',
-        height: 300, // You can adjust the height as needed
-        menubar: false // Optionally, you can hide the menubar
-    });
-
-    tinymce.init({
-        selector: 'textarea#description',
-        plugins: 'lists textcolor',
-        toolbar: 'undo redo | bold italic | bullist numlist | forecolor backcolor',
-        height: 300, // You can adjust the height as needed
-        menubar: false // Optionally, you can hide the menubar
-    });
+    @foreach(['description', 'description_eng'] as $fieldName)
+        ClassicEditor
+            .create(document.querySelector('#editor{{$loop->iteration}}'))
+            .then(editor => {
+                editor.setData(`{!! $generalPest[$fieldName] !!}`);
+                editor.model.document.on('change:data', () => {
+                    const data = editor.getData();
+                    document.querySelector(`textarea[name="{{$fieldName}}"]`).value = data;
+                });
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    @endforeach
 </script>
 @endsection

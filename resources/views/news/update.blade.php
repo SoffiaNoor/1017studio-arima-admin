@@ -24,16 +24,16 @@ News / Edit / {{$news->id}}
                             {{ session('error') }}
                         </div>
                         @endif
-                        <form method="POST" action="{{ route('news.update',$news->id)}}"
-                            enctype="multipart/form-data">
+                        <form method="POST" action="{{ route('news.update',$news->id)}}" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
                             <div class="row">
                                 <div class="col-md-6 pr-1">
                                     <div class="form-group">
                                         <label>Title</label>
-                                        <input type="text" id="title" name="title" class="form-control @error('title') is-invalid @enderror" placeholder="title"
-                                            value="{{$news->title}}" required>
+                                        <input type="text" id="title" name="title"
+                                            class="form-control @error('title') is-invalid @enderror"
+                                            placeholder="title" value="{{$news->title}}" required>
                                         @error('title')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -46,8 +46,9 @@ News / Edit / {{$news->id}}
                                 <div class="col-md-6 pr-1">
                                     <div class="form-group">
                                         <label>Title (English Version)</label>
-                                        <input type="text" id="title_eng" name="title_eng" class="form-control @error('title_eng') is-invalid @enderror" placeholder="title"
-                                            value="{{$news->title_eng}}" required>
+                                        <input type="text" id="title_eng" name="title_eng"
+                                            class="form-control @error('title_eng') is-invalid @enderror"
+                                            placeholder="title" value="{{$news->title_eng}}" required>
                                         @error('title_eng')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -71,8 +72,9 @@ News / Edit / {{$news->id}}
                                                 src="{{ asset('assets/img/no-photo.png') }}">
                                             @endif
                                         </div>
-                                        <input type="file" class="form-control mt-3 @error('image') is-invalid @enderror" id="file_input" name="image"
-                                            value="">
+                                        <input type="file"
+                                            class="form-control mt-3 @error('image') is-invalid @enderror"
+                                            id="file_input" name="image" value="">
                                         @error('image')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -84,12 +86,10 @@ News / Edit / {{$news->id}}
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label>Description</label>
-                                        <textarea rows="10" cols="80"
-                                            class="form-control @error('description') is-invalid @enderror"
-                                            id="description" name="description"
-                                            placeholder="Here can be your description"
-                                            required>{{$news->description}}</textarea>
+                                        <label>Description (IDN Version)</label>
+                                        <div id="editor1"></div>
+                                        <textarea class="@error('description') is-invalid @enderror" name="description"
+                                            style="display:none;">{{$news->description}}</textarea>
                                         @error('description')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -101,12 +101,11 @@ News / Edit / {{$news->id}}
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label>Description (English Version)</label>
-                                        <textarea rows="10" cols="80"
-                                            class="form-control @error('description_eng') is-invalid @enderror"
-                                            id="description_eng" name="description_eng"
-                                            placeholder="Here can be your description"
-                                            required>{{$news->description_eng}}</textarea>
+                                        <label>Description (ENG Version)</label>
+                                        <div id="editor2"></div>
+                                        <textarea class="@error('description_eng') is-invalid @enderror"
+                                            name="description_eng"
+                                            style="display:none;">{{$news->description_eng}}</textarea>
                                         @error('description_eng')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -134,8 +133,7 @@ News / Edit / {{$news->id}}
 @endsection
 
 @section('jquery')
-<script src="https://cdn.tiny.cloud/1/a2m8qq7i48j1gc5izphurmemg39o165ft6pbpiz5a7waq805/tinymce/5/tinymce.min.js"
-    referrerpolicy="origin"></script>
+
 <script>
     const fileInput = document.getElementById('file_input');
     const imageDisplay = document.getElementById('image_display');
@@ -152,19 +150,19 @@ News / Edit / {{$news->id}}
 </script>
 
 <script>
-    tinymce.init({
-        selector: 'textarea#description',
-        plugins: 'lists textcolor',
-        toolbar: 'undo redo | bold italic | bullist numlist | forecolor backcolor',
-        height: 300, // You can adjust the height as needed
-        menubar: false // Optionally, you can hide the menubar
-    });
-    tinymce.init({
-        selector: 'textarea#description_eng',
-        plugins: 'lists textcolor',
-        toolbar: 'undo redo | bold italic | bullist numlist | forecolor backcolor',
-        height: 300, // You can adjust the height as needed
-        menubar: false // Optionally, you can hide the menubar
-    });
+    @foreach(['description', 'description_eng'] as $fieldName)
+        ClassicEditor
+            .create(document.querySelector('#editor{{$loop->iteration}}'))
+            .then(editor => {
+                editor.setData(`{!! $news[$fieldName] !!}`);
+                editor.model.document.on('change:data', () => {
+                    const data = editor.getData();
+                    document.querySelector(`textarea[name="{{$fieldName}}"]`).value = data;
+                });
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    @endforeach
 </script>
 @endsection

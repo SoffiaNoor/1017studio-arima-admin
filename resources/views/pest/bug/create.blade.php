@@ -137,10 +137,9 @@ Bug / Create
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Ekosistem (IDN Version)</label>
-                                        <textarea rows="10" cols="80"
-                                            class="form-control @error('ekosistem') is-invalid @enderror" id="ekosistem"
-                                            name="ekosistem" placeholder="Here can be your ecosystem"
-                                            required></textarea>
+                                        <div id="editor1"></div>
+                                        <textarea class="@error('ekosistem') is-invalid @enderror" name="ekosistem"
+                                            style="display:none;"></textarea>
                                         @error('ekosistem')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -153,10 +152,9 @@ Bug / Create
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Ekosistem (ENG Version)</label>
-                                        <textarea rows="10" cols="80"
-                                            class="form-control @error('ekosistem_eng') is-invalid @enderror"
-                                            id="ekosistem_eng" name="ekosistem_eng"
-                                            placeholder="Here can be your ecosystem" required></textarea>
+                                        <div id="editor2"></div>
+                                        <textarea class="@error('ekosistem_eng') is-invalid @enderror"
+                                            name="ekosistem_eng" style="display:none;"></textarea>
                                         @error('ekosistem_eng')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -185,8 +183,9 @@ Bug / Create
                                     <div class="form-group">
                                         <label>Fun Fact (English Version)</label>
                                         <textarea rows="10" cols="80"
-                                            class="form-control @error('funfact_eng') is-invalid @enderror" id="funfact_eng"
-                                            name="funfact_eng" placeholder="Here can be your funfact" required></textarea>
+                                            class="form-control @error('funfact_eng') is-invalid @enderror"
+                                            id="funfact_eng" name="funfact_eng" placeholder="Here can be your funfact"
+                                            required></textarea>
                                         @error('funfact_eng')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -199,10 +198,9 @@ Bug / Create
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Penanggulangan (IDN Version)</label>
-                                        <textarea rows="10" cols="80"
-                                            class="form-control @error('penanggulangan') is-invalid @enderror"
-                                            id="penanggulangan" name="penanggulangan"
-                                            placeholder="Here can be your penanggulangan" required></textarea>
+                                        <div id="editor3"></div>
+                                        <textarea class="@error('penanggulangan') is-invalid @enderror"
+                                            name="penanggulangan" style="display:none;"></textarea>
                                         @error('penanggulangan')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -215,10 +213,9 @@ Bug / Create
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Penanggulangan (ENG Version)</label>
-                                        <textarea rows="10" cols="80"
-                                            class="form-control @error('penanggulangan_eng') is-invalid @enderror"
-                                            id="penanggulangan_eng" name="penanggulangan_eng"
-                                            placeholder="Here can be your penanggulangan" required></textarea>
+                                        <div id="editor4"></div>
+                                        <textarea class="@error('penanggulangan_eng') is-invalid @enderror"
+                                            name="penanggulangan_eng" style="display:none;"></textarea>
                                         @error('penanggulangan_eng')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -300,8 +297,6 @@ Bug / Create
 @endsection
 
 @section('jquery')
-<script src="https://cdn.tiny.cloud/1/a2m8qq7i48j1gc5izphurmemg39o165ft6pbpiz5a7waq805/tinymce/5/tinymce.min.js"
-    referrerpolicy="origin"></script>
 
 <script>
     const fileInput = document.getElementById('file_input');
@@ -331,56 +326,23 @@ Bug / Create
         }
     });
 </script>
+
 <script>
-    tinymce.init({
-        selector: 'textarea#ekosistem',
-        plugins: 'lists textcolor',
-        toolbar: 'undo redo | bold italic | bullist numlist | forecolor backcolor',
-        height: 300, 
-        menubar: false,
-        setup: function (editor) {
-            editor.on('change', function () {
-                editor.save();
+    @foreach(['ekosistem', 'ekosistem_eng', 'penanggulangan', 'penanggulangan_eng'] as $fieldName)
+        ClassicEditor
+            .create(document.querySelector('#editor{{$loop->iteration}}'))
+            .then(editor => {
+                editor.model.document.on('change:data', () => {
+                    const data = editor.getData();
+                    document.querySelector(`textarea[name="{{$fieldName}}"]`).value = data;
+                });
+            })
+            .catch(error => {
+                console.error(error);
             });
-        }
-    });
-    tinymce.init({
-        selector: 'textarea#ekosistem_eng',
-        plugins: 'lists textcolor',
-        toolbar: 'undo redo | bold italic | bullist numlist | forecolor backcolor',
-        height: 300,
-        menubar: false,
-        setup: function (editor) {
-            editor.on('change', function () {
-                editor.save();
-            });
-        }
-    });
-    tinymce.init({
-        selector: 'textarea#penanggulangan',
-        plugins: 'lists textcolor',
-        toolbar: 'undo redo | bold italic | bullist numlist | forecolor backcolor',
-        height: 300,
-        menubar: false,
-        setup: function (editor) {
-            editor.on('change', function () {
-                editor.save();
-            });
-        }
-    });
-    tinymce.init({
-        selector: 'textarea#penanggulangan_eng',
-        plugins: 'lists textcolor',
-        toolbar: 'undo redo | bold italic | bullist numlist | forecolor backcolor',
-        height: 300,
-        menubar: false,
-        setup: function (editor) {
-            editor.on('change', function () {
-                editor.save();
-            });
-        }
-    });
+    @endforeach
 </script>
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('addBugTypeBtn').addEventListener('click', function() {

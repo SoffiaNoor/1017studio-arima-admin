@@ -31,10 +31,13 @@ Bug / Edit / {{$bug->id}}
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="exampleFormControlSelect1">Types of Bug</label>
-                                        <select class="form-control @error('types') is-invalid @enderror" id="exampleFormControlSelect1" name="types">
+                                        <select class="form-control @error('types') is-invalid @enderror"
+                                            id="exampleFormControlSelect1" name="types">
                                             <option selected disabled hidden>Select the types of bug</option>
-                                            <option value="0" {{ $bug->types == 0 ? 'selected' : '' }}>Types of insect pests</option>
-                                            <option value="1" {{ $bug->types == 1 ? 'selected' : '' }}>Other types of pests</option>
+                                            <option value="0" {{ $bug->types == 0 ? 'selected' : '' }}>Types of insect
+                                                pests</option>
+                                            <option value="1" {{ $bug->types == 1 ? 'selected' : '' }}>Other types of
+                                                pests</option>
                                         </select>
                                         @error('types')
                                         <span class="invalid-feedback" role="alert">
@@ -129,10 +132,9 @@ Bug / Edit / {{$bug->id}}
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Ekosistem (IDN Version)</label>
-                                        <textarea rows="10" cols="80"
-                                            class="form-control @error('ekosistem') is-invalid @enderror" id="ekosistem"
-                                            name="ekosistem" placeholder="Here can be your ecosystem"
-                                            required>{{$bug->ekosistem}}</textarea>
+                                        <div id="editor1"></div>
+                                        <textarea class="@error('ekosistem') is-invalid @enderror" name="ekosistem"
+                                            style="display:none;">{{$bug->ekosistem}}</textarea>
                                         @error('ekosistem')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -145,11 +147,10 @@ Bug / Edit / {{$bug->id}}
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Ekosistem (ENG Version)</label>
-                                        <textarea rows="10" cols="80"
-                                            class="form-control @error('ekosistem_eng') is-invalid @enderror"
-                                            id="ekosistem_eng" name="ekosistem_eng"
-                                            placeholder="Here can be your ecosystem"
-                                            required>{{$bug->ekosistem_eng}}</textarea>
+                                        <div id="editor2"></div>
+                                        <textarea class="@error('ekosistem_eng') is-invalid @enderror"
+                                            name="ekosistem_eng"
+                                            style="display:none;">{{$bug->ekosistem_eng}}</textarea>
                                         @error('ekosistem_eng')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -179,8 +180,8 @@ Bug / Edit / {{$bug->id}}
                                     <div class="form-group">
                                         <label>Fun Fact (English Version)</label>
                                         <textarea rows="10" cols="80"
-                                            class="form-control @error('funfact_eng') is-invalid @enderror" id="funfact_eng"
-                                            name="funfact_eng" placeholder="Here can be your funfact"
+                                            class="form-control @error('funfact_eng') is-invalid @enderror"
+                                            id="funfact_eng" name="funfact_eng" placeholder="Here can be your funfact"
                                             required>{{$bug->funfact_eng}}</textarea>
                                         @error('funfact_eng')
                                         <span class="invalid-feedback" role="alert">
@@ -194,11 +195,10 @@ Bug / Edit / {{$bug->id}}
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Penanggulangan (IDN Version)</label>
-                                        <textarea rows="10" cols="80"
-                                            class="form-control @error('penanggulangan') is-invalid @enderror"
-                                            id="penanggulangan" name="penanggulangan"
-                                            placeholder="Here can be your penanggulangan"
-                                            required>{{$bug->penanggulangan}}</textarea>
+                                        <div id="editor3"></div>
+                                        <textarea class="@error('penanggulangan') is-invalid @enderror"
+                                            name="penanggulangan"
+                                            style="display:none;">{{$bug->penanggulangan}}</textarea>
                                         @error('penanggulangan')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -211,11 +211,10 @@ Bug / Edit / {{$bug->id}}
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Penanggulangan (ENG Version)</label>
-                                        <textarea rows="10" cols="80"
-                                            class="form-control @error('penanggulangan_eng') is-invalid @enderror"
-                                            id="penanggulangan_eng" name="penanggulangan_eng"
-                                            placeholder="Here can be your penanggulangan"
-                                            required>{{$bug->penanggulangan_eng}}</textarea>
+                                        <div id="editor4"></div>
+                                        <textarea class="@error('penanggulangan_eng') is-invalid @enderror"
+                                            name="penanggulangan_eng"
+                                            style="display:none;">{{$bug->penanggulangan_eng}}</textarea>
                                         @error('penanggulangan_eng')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -240,7 +239,8 @@ Bug / Edit / {{$bug->id}}
                                             </div>
                                             <div class="mt-2" style="text-align: center;">
                                                 <img class="img-thumbnail existing-preview-image"
-                                                    src="{{ asset($bt->image) }}" style="width: 200px;height: 200px;object-fit: cover;">
+                                                    src="{{ asset($bt->image) }}"
+                                                    style="width: 200px;height: 200px;object-fit: cover;">
                                             </div>
                                             <div class="col-sm-12 py-2" style="align-self: center">
                                                 <div class="form-group">
@@ -284,8 +284,6 @@ Bug / Edit / {{$bug->id}}
 @endsection
 
 @section('jquery')
-<script src="https://cdn.tiny.cloud/1/a2m8qq7i48j1gc5izphurmemg39o165ft6pbpiz5a7waq805/tinymce/5/tinymce.min.js"
-    referrerpolicy="origin"></script>
 
 <script>
     const fileInput = document.getElementById('file_input');
@@ -315,56 +313,7 @@ Bug / Edit / {{$bug->id}}
         }
     });
 </script>
-<script>
-    tinymce.init({
-        selector: 'textarea#ekosistem',
-        plugins: 'lists textcolor',
-        toolbar: 'undo redo | bold italic | bullist numlist | forecolor backcolor',
-        height: 300, 
-        menubar: false,
-        setup: function (editor) {
-            editor.on('change', function () {
-                editor.save();
-            });
-        }
-    });
-    tinymce.init({
-        selector: 'textarea#ekosistem_eng',
-        plugins: 'lists textcolor',
-        toolbar: 'undo redo | bold italic | bullist numlist | forecolor backcolor',
-        height: 300,
-        menubar: false,
-        setup: function (editor) {
-            editor.on('change', function () {
-                editor.save();
-            });
-        }
-    });
-    tinymce.init({
-        selector: 'textarea#penanggulangan',
-        plugins: 'lists textcolor',
-        toolbar: 'undo redo | bold italic | bullist numlist | forecolor backcolor',
-        height: 300,
-        menubar: false,
-        setup: function (editor) {
-            editor.on('change', function () {
-                editor.save();
-            });
-        }
-    });
-    tinymce.init({
-        selector: 'textarea#penanggulangan_eng',
-        plugins: 'lists textcolor',
-        toolbar: 'undo redo | bold italic | bullist numlist | forecolor backcolor',
-        height: 300,
-        menubar: false,
-        setup: function (editor) {
-            editor.on('change', function () {
-                editor.save();
-            });
-        }
-    });
-</script>
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         function previewImage(input, previewElement) {
@@ -399,76 +348,21 @@ Bug / Edit / {{$bug->id}}
         });
     });
 </script>
-{{-- <script>
-    document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('addBugTypeBtn').addEventListener('click', function() {
-        const bugTypeSectionContainer = document.getElementById('bugTypeSectionContainer');
-        const bugTypeSectionTemplate = document.createElement('div');
-        bugTypeSectionTemplate.classList.add('row');
 
-        bugTypeSectionTemplate.innerHTML = `
-            <div class="col-md-12">
-                <label>Bug Types</label>
-                <div class="row">
-                    <div class="col-sm-12 py-2" style="background:#e3e3e3;border-radius:10px">
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <div class="col-sm-12 py-2">
-                                    <div class="form-group">
-                                        <label style="color:black">Bug Type Image</label>
-                                        <div class="grid grid-cols-6">
-                                            <img class="object-contain items-center image_display"
-                                                style="width:10rem;height:10rem;object-fit:cover"
-                                                src="{{ asset('assets/img/no-photo.png') }}">
-                                        </div>
-                                        <input type="file" name="image[]" class="form-control mt-2 image_input" />
-                                        <small class="text-muted">Please choose an image to upload.</small>
-                                    </div>
-                                </div>
-                                <div class="col-sm-12 py-2" style="align-self: center">
-                                    <div class="form-group">
-                                        <label>Bug Title</label>
-                                        <input type="text" name="title_bugs[]" class="form-control title_bugs"
-                                            style="background-color:#ffffff"
-                                            placeholder="Put your bug title here...">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Latin Title</label>
-                                        <input type="text" name="latin_title[]" class="form-control latin_title"
-                                            style="background-color:#ffffff"
-                                            placeholder="Put your bug latin title here...">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <button type="button" class="btn btn-danger remove-bug-type">Remove</button>
-                    </div>
-                </div>
-            </div>
-        `;
-
-        bugTypeSectionContainer.appendChild(bugTypeSectionTemplate);
-
-        const imageInput = bugTypeSectionTemplate.querySelector('.image_input');
-        const imageDisplay = bugTypeSectionTemplate.querySelector('.image_display');
-
-        imageInput.addEventListener('change', function() {
-            if (imageInput.files.length > 0) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    imageDisplay.src = e.target.result;
-                };
-                reader.readAsDataURL(imageInput.files[0]);
-            }
-        });
-
-        const removeButton = bugTypeSectionTemplate.querySelector('.remove-bug-type');
-        removeButton.addEventListener('click', function() {
-            bugTypeSectionTemplate.remove();
-        });
-    });
-});
-
-
-</script> --}}
+<script>
+    @foreach(['ekosistem', 'ekosistem_eng', 'penanggulangan', 'penanggulangan_eng'] as $fieldName)
+        ClassicEditor
+            .create(document.querySelector('#editor{{$loop->iteration}}'))
+            .then(editor => {
+                editor.setData(`{!! $bug[$fieldName] !!}`);
+                editor.model.document.on('change:data', () => {
+                    const data = editor.getData();
+                    document.querySelector(`textarea[name="{{$fieldName}}"]`).value = data;
+                });
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    @endforeach
+</script>
 @endsection

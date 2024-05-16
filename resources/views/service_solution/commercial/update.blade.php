@@ -74,11 +74,9 @@ Commercial / Edit
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Description (IDN Version)</label>
-                                        <textarea rows="10" cols="80"
-                                            class="form-control @error('description') is-invalid @enderror"
-                                            id="description" name="description"
-                                            placeholder="Here can be your description"
-                                            required>{{$commercial->description}}</textarea>
+                                        <div id="editor1"></div>
+                                        <textarea class="@error('description') is-invalid @enderror" name="description"
+                                            style="display:none;">{{$commercial->description}}</textarea>
                                         @error('description')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -91,11 +89,9 @@ Commercial / Edit
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Description (ENG Version)</label>
-                                        <textarea rows="10" cols="80"
-                                            class="form-control @error('description_eng') is-invalid @enderror"
-                                            id="description_eng" name="description_eng"
-                                            placeholder="Here can be your description"
-                                            required>{{$commercial->description_eng}}</textarea>
+                                        <div id="editor2"></div>
+                                        <textarea class="@error('description_eng') is-invalid @enderror"
+                                            name="description_eng" style="display:none;">{{$commercial->description_eng}}</textarea>
                                         @error('description_eng')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -108,11 +104,9 @@ Commercial / Edit
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>List Type</label>
-                                        <textarea rows="10" cols="80"
-                                            class="form-control @error('list_type') is-invalid @enderror"
-                                            id="list_type" name="list_type"
-                                            placeholder="Here can be your list type"
-                                            required>{{$commercial->list_type}}</textarea>
+                                        <div id="editor3"></div>
+                                        <textarea class="@error('list_type') is-invalid @enderror" name="list_type"
+                                            style="display:none;">{{$commercial->list_type}}</textarea>
                                         @error('list_type')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -140,7 +134,7 @@ Commercial / Edit
 @endsection
 
 @section('jquery')
-<script src="https://cdn.tiny.cloud/1/a2m8qq7i48j1gc5izphurmemg39o165ft6pbpiz5a7waq805/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+<script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
 
 <script>
     const fileInput = document.getElementById('file_input');
@@ -158,28 +152,19 @@ Commercial / Edit
 </script>
 
 <script>
-    tinymce.init({
-        selector: 'textarea#list_type',
-        plugins: 'lists textcolor',
-        toolbar: 'undo redo | bold italic | bullist numlist | forecolor backcolor',
-        height: 300, // You can adjust the height as needed
-        menubar: false // Optionally, you can hide the menubar
-    });
-
-    tinymce.init({
-        selector: 'textarea#description_eng',
-        plugins: 'lists textcolor',
-        toolbar: 'undo redo | bold italic | bullist numlist | forecolor backcolor',
-        height: 300, // You can adjust the height as needed
-        menubar: false // Optionally, you can hide the menubar
-    });
-
-    tinymce.init({
-        selector: 'textarea#description',
-        plugins: 'lists textcolor',
-        toolbar: 'undo redo | bold italic | bullist numlist | forecolor backcolor',
-        height: 300, // You can adjust the height as needed
-        menubar: false // Optionally, you can hide the menubar
-    });
+    @foreach(['description', 'description_eng', 'list_type'] as $fieldName)
+        ClassicEditor
+            .create(document.querySelector('#editor{{$loop->iteration}}'))
+            .then(editor => {
+                editor.setData(`{!! $commercial[$fieldName] !!}`);
+                editor.model.document.on('change:data', () => {
+                    const data = editor.getData();
+                    document.querySelector(`textarea[name="{{$fieldName}}"]`).value = data;
+                });
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    @endforeach
 </script>
 @endsection
