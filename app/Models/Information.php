@@ -29,5 +29,6 @@ class Information extends Model
         'link_wa',
         'order_wa',
         'website_link',
+        'sebaran_wilayah',
     ];
 }

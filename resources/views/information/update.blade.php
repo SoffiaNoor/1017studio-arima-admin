@@ -252,6 +252,30 @@ Website Information / Edit
                 </div>
               </div>
             </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label>Sebaran Wilayah</label>
+                  <div class="grid grid-cols-6">
+                    @if($information->sebaran_wilayah)
+                    <div class="p-3 shadow-lg text-center" style="background-color: #c7c7c7;border-radius:20px">
+                      <img id="image_display5" class="object-contain items-center"
+                        style="width:auto;height:10rem;object-fit:cover" src="{{asset($information->sebaran_wilayah)}}">
+                    </div>
+                    @else
+                    <img id="image_display5" class="object-contain items-center"
+                      style="width:10rem;height:10rem;object-fit:cover" src="{{ asset('assets/img/no-photo.png') }}">
+                    @endif
+                  </div>
+                  <input type="file" class="form-control mt-3" id="file_input5" name="sebaran_wilayah" value="">
+                  @error('sebaran_wilayah')
+                  <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                  </span>
+                  @enderror
+                </div>
+              </div>
+            </div>
         </form>
       </div>
     </div>
@@ -342,6 +366,19 @@ Website Information / Edit
                 imageDisplay4.src = e.target.result;
             };
             reader4.readAsDataURL(fileInput4.files[0]);
+        }
+    });
+
+    const fileInput5 = document.getElementById('file_input5');
+    const imageDisplay5 = document.getElementById('image_display5');
+
+    fileInput5.addEventListener('change', function() {
+        if (fileInput5.files.length > 0) {
+            const reader5 = new FileReader();
+            reader5.onload = function(e) {
+              imageDisplay5.src = e.target.result;
+            };
+            reader5.readAsDataURL(fileInput5.files[0]);
         }
     });
 </script>

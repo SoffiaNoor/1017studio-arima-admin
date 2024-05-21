@@ -37,6 +37,7 @@ class InformationController extends Controller
                 'google_map' => 'required',
                 'order_wa' => 'required',
                 'website_link' => 'required',
+                'sebaran_wilayah' => 'required',
             ];
 
             if (!$request->hasFile('logo_header') && !$information->logo_header) {
@@ -61,6 +62,12 @@ class InformationController extends Controller
                 $rules['image'] = 'required|image|mimes:jpeg,jpg,png';
             } elseif ($request->hasFile('image')) {
                 $rules['image'] = 'image|mimes:jpeg,jpg,png';
+            }
+
+            if (!$request->hasFile('sebaran_wilayah') && !$information->sebaran_wilayah) {
+                $rules['sebaran_wilayah'] = 'required|image|mimes:jpeg,jpg,png';
+            } elseif ($request->hasFile('sebaran_wilayah')) {
+                $rules['sebaran_wilayah'] = 'image|mimes:jpeg,jpg,png';
             }
 
             $request->validate($rules);
@@ -108,6 +115,14 @@ class InformationController extends Controller
                 }
             }
 
+            if (!empty($information->sebaran_wilayah) && $request->hasFile('sebaran_wilayah')) {
+                $imagePath5 = $information->sebaran_wilayah;
+
+                if (File::exists($imagePath5)) {
+                    File::delete($imagePath5);
+                }
+            }
+
             if ($logo_header = $request->file('logo_header')) {
                 $destinationPath = 'images/information/logo_header/';
                 $profileImage = "information" . "-" . "logo_header" . date('YmdHis') . "." . $logo_header->getClientOriginalExtension();
@@ -142,6 +157,15 @@ class InformationController extends Controller
                 $input['image'] = $destinationPath4 . $profileImage4;
             } elseif (!$request->hasFile('image') && !$information->image) {
                 unset($input['image']);
+            }
+
+            if ($sebaran_wilayah = $request->file('sebaran_wilayah')) {
+                $destinationPath5 = 'images/information/sebaran_wilayah/';
+                $profileImage5 = "information" . "-" . "sebaran_wilayah" . date('YmdHis') . "." . $sebaran_wilayah->getClientOriginalExtension();
+                $sebaran_wilayah->move($destinationPath5, $profileImage5);
+                $input['sebaran_wilayah'] = $destinationPath5 . $profileImage5;
+            } elseif (!$request->hasFile('sebaran_wilayah') && !$information->sebaran_wilayah) {
+                unset($input['sebaran_wilayah']);
             }
 
             $information->update($input);

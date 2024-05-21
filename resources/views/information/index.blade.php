@@ -244,6 +244,34 @@ Website Information
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Sebaran Wilayah</label>
+                                    <div class="grid grid-cols-6">
+                                        @if($information->sebaran_wilayah)
+                                        <div class="p-3 shadow-lg text-center"
+                                            style="background-color: #c7c7c7;border-radius:20px">
+                                            <img id="image_display4" class="object-contain items-center"
+                                                style="width:auto;height:10rem;object-fit:cover"
+                                                src="{{asset($information->sebaran_wilayah)}}">
+                                        </div>
+                                        @else
+                                        <img id="image_display4" class="object-contain items-center"
+                                            style="width:10rem;height:10rem;object-fit:cover"
+                                            src="{{ asset('assets/img/no-photo.png') }}">
+                                        @endif
+                                    </div>
+                                    <input type="file" class="form-control mt-3" id="file_input4" name="sebaran_wilayah" value=""
+                                        disabled>
+                                    @error('sebaran_wilayah')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>
