@@ -228,6 +228,15 @@ Website Information / Edit
             <div class="row">
               <div class="col-md-12">
                 <div class="form-group">
+                  <label>Phone Number for Whatsapp</label>
+                  <input type="text" name="phone_wa" class="form-control" placeholder="Phone Number for Whatsapp only"
+                    value="{{$information->phone_wa}}">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
                   <label>Google Map</label>
                   <input type="text" name="google_map" class="form-control" placeholder="Home Address"
                     value="{{$information->google_map}}">

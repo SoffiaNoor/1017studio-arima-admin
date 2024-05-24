@@ -34,6 +34,7 @@ class InformationController extends Controller
                 'phone_1' => 'required',
                 'phone_2' => 'required',
                 'phone_sms' => 'required',
+                'phone_wa' => 'required',
                 'google_map' => 'required',
                 'order_wa' => 'required',
                 'website_link' => 'required',
@@ -73,12 +74,12 @@ class InformationController extends Controller
 
             $input = $request->except(['_token', '_method']);
 
-            $input['phone_1'] = (strpos($request->phone_1, '0') === 0) ? '62' . substr($request->phone_1, 1) : $request->phone_1;
+            $input['phone_wa'] = (strpos($request->phone_wa, '0') === 0) ? '62' . substr($request->phone_wa, 1) : $request->phone_wa;
 
             $input['order_wa'] = (strpos($request->order_wa, '0') === 0) ? '62' . substr($request->order_wa, 1) : $request->order_wa;
 
-            if ($input['phone_1'] !== $information->phone_1 || $input['order_wa'] !== $information->order_wa) {
-                $whatsappLink = 'https://wa.me/' . urlencode($input['phone_1']) . '?text=' . urlencode($input['order_wa']);
+            if ($input['phone_wa'] !== $information->phone_wa || $input['order_wa'] !== $information->order_wa) {
+                $whatsappLink = 'https://wa.me/' . urlencode($input['phone_wa']) . '?text=' . urlencode($input['order_wa']);
                 $input['link_wa'] = $whatsappLink;
             }
 

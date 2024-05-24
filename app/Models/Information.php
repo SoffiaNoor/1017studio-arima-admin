@@ -25,6 +25,7 @@ class Information extends Model
         'phone_1',
         'phone_2',
         'phone_sms',
+        'phone_wa',
         'google_map',
         'link_wa',
         'order_wa',
