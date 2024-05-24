@@ -37,7 +37,6 @@ class InformationController extends Controller
                 'google_map' => 'required',
                 'order_wa' => 'required',
                 'website_link' => 'required',
-                'sebaran_wilayah' => 'required',
             ];
 
             if (!$request->hasFile('logo_header') && !$information->logo_header) {
@@ -74,12 +73,12 @@ class InformationController extends Controller
 
             $input = $request->except(['_token', '_method']);
 
-            $input['phone'] = (strpos($request->phone, '0') === 0) ? '62' . substr($request->phone, 1) : $request->phone;
+            $input['phone_1'] = (strpos($request->phone_1, '0') === 0) ? '62' . substr($request->phone_1, 1) : $request->phone_1;
 
             $input['order_wa'] = (strpos($request->order_wa, '0') === 0) ? '62' . substr($request->order_wa, 1) : $request->order_wa;
 
-            if ($input['phone'] !== $information->phone || $input['order_wa'] !== $information->order_wa) {
-                $whatsappLink = 'https://wa.me/' . urlencode($input['phone']) . '?text=' . urlencode($input['order_wa']);
+            if ($input['phone_1'] !== $information->phone_1 || $input['order_wa'] !== $information->order_wa) {
+                $whatsappLink = 'https://wa.me/' . urlencode($input['phone_1']) . '?text=' . urlencode($input['order_wa']);
                 $input['link_wa'] = $whatsappLink;
             }
 
